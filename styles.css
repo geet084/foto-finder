@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -9,23 +10,70 @@ body {
   width: 100%;
 }
 
-/*TOP SECTION AREA*/
+/***TOP SECTION AREA***/
 .top-area {
   background: #3E2A35;  
 }
 
-/*LOGO AND SEARCH BAR*/
-.logo-search {
-  height: 100px;
-  background-color: pink;
+/**LOGO AND SEARCH BAR AREA**/
+.logo-search-area {
+  align-items: center;
   display: flex;
+  height: 100px;
   justify-content: space-between;
+  padding: 5px 5px 0 0;
+}
+
+/*LOGO*/
+.header-logo img {
+  height: 47px;
+  margin:0 10px -2px 10px;
 }
 
 .logo {
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
+  color: white;
+  font-size: 3.2rem;
+  font-weight: 900;
+  padding: 0 0 0 35px;
 }
+
+/*SEARCH BAR*/
+.search {
+  margin: 0 40px 0 0;
+}
+
+#search-bar {
+  border: 3px solid #c2b2b4;
+  border-radius: 6px;
+  font-weight: 800;
+  height: 50px;
+  padding: 4px 0 0 10px;
+  width: 369px;
+}
+
+::placeholder {
+  color: #978789;
+  font-size: 1.3rem;
+}
+
+.search-btn {
+  background-color: #C2B2B4;
+  color: white;
+  border: none;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  margin: 0 -10px 0 -10px;
+  padding: 6px 12px 14px 12px;
+}
+
+.search-btn i {
+  font-size: 1.95rem;
+  margin: 0 0 -1px 0;
+  position: relative;
+  top: 4px;
+}
+
+/**END OF LOGO AND SEARCH BAR AREA**/
 
 /*FORM INPUT AREA*/
 .form-input {
@@ -44,6 +92,9 @@ body {
 
 }
 
+/*** END OF TOP SECTION AREA***/
+
+
 /*BOTTOM SECTION AREA*/
 .photo-area {
   background-color: #C2B2B4;
@@ -51,11 +102,36 @@ body {
 
 }
 /*MEDIA QUERIES*/
-@media screen and (max-width: 500px) {
-  .logo-search {
+@media screen and (max-width: 900px) {
+  .logo-search-area {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
+  #search-bar {
+    width: 345px;
+  }
+  .logo {
+    padding: 0;
+  }
+  .search {
+    padding: 0 0 0 45px;
+  } 
+}
+
+@media screen and (max-width: 500px) {
+  .logo {
+    font-size: 2.35rem;
+  }
+  .header-logo img {
+    height: 35px;
+  }
+  #search-bar {
+    width: 250px;
+  }
+  .search {
+    width: 295px;
+    margin: 0 0 0 0px;
+    padding: 0 0 0 0;
+  }
 }
