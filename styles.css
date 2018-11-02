@@ -3,3 +3,59 @@
   margin: 0;
   padding: 0;
 }
+
+body {
+  background-color: red;
+  width: 100%;
+}
+
+/*TOP SECTION AREA*/
+.top-area {
+  background: #3E2A35;  
+}
+
+/*LOGO AND SEARCH BAR*/
+.logo-search {
+  height: 100px;
+  background-color: pink;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+
+/*FORM INPUT AREA*/
+.form-input {
+  height: 575px;
+  display: flex;
+  justify-content: center;
+}
+
+.form-input form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input label, .form-input input {
+  margin: 20px 0;
+
+}
+
+/*BOTTOM SECTION AREA*/
+.photo-area {
+  background-color: #C2B2B4;
+  height: 800px;
+
+}
+/*MEDIA QUERIES*/
+@media screen and (max-width: 500px) {
+  .logo-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+}
