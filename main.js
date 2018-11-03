@@ -2,50 +2,61 @@ document.querySelector('#search-bar').addEventListener('keyup', getSearchInput);
 document.querySelector('.form-input').addEventListener('click', getFormInput);
 document.querySelector('.photo-area').addEventListener('click', photoThing);
 
+window.onload = (pullFotosFromStorage);
 
-function cl(elem) {
-  return console.log(elem);
+function pullFotosFromStorage() {
+  var keys = Object.keys(localStorage);
+  var numOfKeys = keys.length;
+  var index = numOfKeys > 10 ? numOfKeys - 10 : 0;
+  
+  for(index; index < keys.length; index++) { 
+    var parsedStoredFotos = JSON.parse(localStorage.getItem(keys[index]));
+    buildFotoObj(parsedStoredFotos);
+  }
 }
-function select(param) {
-  return document.querySelector(param);
+
+function buildFotoObj(obj) {
+  var aFoto = new Photo(obj.title, obj.caption, obj.id, obj.file, obj.favorite);
+  addToAlbum(aFoto);
 }
-
-
 
 function getFormInput(event) {
   event.preventDefault();
   var verifyIt = event.target.classList;
   
-  event.target.id === 'form-title' ? getTitleInput() : 'Do nothing';
-  event.target.id === 'form-caption' ? getCaptionInput() : 'Do nothing';
-  verifyIt.contains('choose-btn') ? chooseFileBtn() : 'Do nothing';
+  verifyIt.contains('choose-btn') ? cl('choose something') : 'Do nothing';
   verifyIt.contains('view-fav') ? cl('view something') : 'Do nothing';
-  verifyIt.contains('add-to') ? cl('add to something') : 'Do nothing';
+  verifyIt.contains('add-to') ? uploadFoto() : 'Do nothing';
 }
 
-function getTitleInput() {
-  var newTitle =  select('#form-title').value;
-  return newTitle;
+function uploadFoto(event) {
+  if (getTitle() && getCaption()) {
+    var photo = new Photo(getTitle(), getCaption());
+    buildFotoObj(photo);
+    photo.saveToStorage();
+  }
 }
 
-function getCaptionInput() {
-  var newCaption = select('#form-caption').value;
-  return newCaption;
+function addToAlbum(aFoto) {
+    var newCard = document.createElement('section');
+    newCard.dataset.name = aFoto.id;
+    aFoto.cardInfo(newCard);
+    document.querySelector('.photo-area').prepend(newCard);
+    aFoto.saveToStorage();
+    clearInputs();
 }
 
-function chooseFileBtn() {
-  var photo = new Photo(getTitleInput(), getCaptionInput());
-  var aFoto = new Photo(photo.title, photo.caption, photo.id, photo.file, photo.favorite);
-  var newCard = document.createElement('section');
-  newCard.className = 'foto-card';
-  aFoto.cardInfo(newCard);
-  select('.photo-area').prepend(newCard);
+function getTitle() {
+  return document.querySelector('#form-title').value;
 }
 
-
-
-
-
+function getCaption() {
+  return document.querySelector('#form-caption').value;
+}
+function clearInputs() {
+  document.querySelector('#form-title').value = null;
+  document.querySelector('#form-caption').value = null;
+}
 
 function photoThing() {
   if (event.target.classList.contains('del-img')) {
@@ -54,9 +65,6 @@ function photoThing() {
     console.log('fav');
   }
 }
-
-
-
 
 
 // FOR SEARCH BAR
