@@ -5,11 +5,6 @@
   padding: 0;
 }
 
-body {
-  background-color: red;
-  width: 100%;
-}
-
 /***TOP SECTION AREA***/
 .top-area {
   background: #3E2A35;  
@@ -127,6 +122,10 @@ body {
 /*** END OF TOP SECTION AREA***/
 
 /***BOTTOM SECTION AREA***/
+main {
+  min-height: 485px;  
+}
+
 .photo-area {
   background-color: #C2B2B4;
   display: flex;
