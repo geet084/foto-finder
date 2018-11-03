@@ -126,12 +126,65 @@ body {
 /**END OF FORM INPUT AREA**/
 /*** END OF TOP SECTION AREA***/
 
-/*BOTTOM SECTION AREA*/
+/***BOTTOM SECTION AREA***/
 .photo-area {
   background-color: #C2B2B4;
-  height: 800px;
-
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0 50px 35px;
 }
+
+/**CARD**/
+.card {
+  height: 390px;
+  width: 280px;
+  background-color: white;
+  margin: 40px 0 5px 52px;
+  border: 2px solid #5b4447;
+}
+
+/*CARD CONTENTS*/
+.card-title {
+  height: 50px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  padding: 13px 0 0 12px;
+  color: #3e2a35;
+}
+
+.card-img {
+  height: 165px;
+  background-color: lightgrey;
+  background: url('images/bgimg.png');
+  background-size: cover;
+}
+
+.card-body {
+  height: 105px;
+  color: #3e2a35;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 10px 0 0 15px;
+}
+
+.card-btm {
+  height: 66px;
+  background-color: #5b4447;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 14px 0 14px;
+}
+
+.card-btm img {
+  height: 60%;
+}
+.card-btm img:hover {
+  background-color: white;
+}
+/*END OF CARD CONTENTS*/
+/**END OF CARD**/
+/***END OF BOTTOM SECTION AREA***/
 
 
 
