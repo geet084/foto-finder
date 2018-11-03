@@ -2,47 +2,47 @@ document.querySelector('#search-bar').addEventListener('keyup', getSearchInput);
 document.querySelector('.form-input').addEventListener('click', getFormInput);
 document.querySelector('.photo-area').addEventListener('click', photoThing);
 
-window.onload = (pullFotosFromStorage);
+window.onload = (pullPhotosFromStorage);
 
-function pullFotosFromStorage() {
+function pullPhotosFromStorage() {
   var keys = Object.keys(localStorage);
   var numOfKeys = keys.length;
   var index = numOfKeys > 10 ? numOfKeys - 10 : 0;
   
   for(index; index < keys.length; index++) { 
-    var parsedStoredFotos = JSON.parse(localStorage.getItem(keys[index]));
-    buildFotoObj(parsedStoredFotos);
+    var parsedStoredPhotos = JSON.parse(localStorage.getItem(keys[index]));
+    buildPhotoObj(parsedStoredPhotos);
   }
-}
-
-function buildFotoObj(obj) {
-  var aFoto = new Photo(obj.title, obj.caption, obj.id, obj.file, obj.favorite);
-  addToAlbum(aFoto);
 }
 
 function getFormInput(event) {
   event.preventDefault();
   var verifyIt = event.target.classList;
   
-  verifyIt.contains('choose-btn') ? cl('choose something') : 'Do nothing';
-  verifyIt.contains('view-fav') ? cl('view something') : 'Do nothing';
-  verifyIt.contains('add-to') ? uploadFoto() : 'Do nothing';
+  verifyIt.contains('choose-btn') ? console.log('choose something') : 'Do nothing';
+  verifyIt.contains('view-fav') ? console.log('view something') : 'Do nothing';
+  verifyIt.contains('add-to') ? uploadPhoto() : 'Do nothing';
 }
 
-function uploadFoto(event) {
+function uploadPhoto(event) {
   if (getTitle() && getCaption()) {
     var photo = new Photo(getTitle(), getCaption());
-    buildFotoObj(photo);
+    buildPhotoObj(photo);
     photo.saveToStorage();
   }
 }
 
-function addToAlbum(aFoto) {
+function buildPhotoObj(obj) {
+  var photo = new Photo(obj.title, obj.caption, obj.id, obj.file, obj.favorite);
+  addToAlbum(photo);
+}
+
+function addToAlbum(photo) {
     var newCard = document.createElement('section');
-    newCard.dataset.name = aFoto.id;
-    aFoto.cardInfo(newCard);
+    newCard.dataset.name = photo.id;
+    photo.cardInfo(newCard);
     document.querySelector('.photo-area').prepend(newCard);
-    aFoto.saveToStorage();
+    photo.saveToStorage();
     clearInputs();
 }
 
@@ -58,7 +58,7 @@ function clearInputs() {
   document.querySelector('#form-caption').value = null;
 }
 
-function removeFoto(event) {
+function removePhoto(event) {
     var photo = new Photo();
     photo.deleteFromStorage(event);
     event.target.parentElement.parentElement.remove();
@@ -66,11 +66,35 @@ function removeFoto(event) {
 
 function photoThing(event) {
   if (event.target.classList.contains('del-img')) {
-    removeFoto(event);
+    removePhoto(event);
   } else if (event.target.classList.contains('fav-img')) {
     console.log('fav');
   }
 }
+
+document.querySelector('.photo-area').addEventListener('keydown', editPhotoCard);
+
+function editPhotoCard(event) {
+  if (event.keyCode === 13 || event.keyCode === 9) {
+    event.preventDefault();
+    updatePhotoCard(event);
+  }
+}
+
+function updatePhotoCard(event) {
+  var getPhotoId = localStorage.getItem(event.target.closest('section').dataset.name);
+  var obj = JSON.parse(getPhotoId);
+  var photo = new Photo(obj.title, obj.caption, obj.id, obj.file, obj.favorite);
+
+  if (event.target.classList.contains('card-title')) {
+    photo.title = event.target.innerText;
+    photo.saveToStorage();
+  } else if (event.target.classList.contains('card-caption')) {
+    photo.caption = event.target.innerText;
+    photo.saveToStorage();
+  }
+}
+
 
 
 // FOR SEARCH BAR
