@@ -58,9 +58,15 @@ function clearInputs() {
   document.querySelector('#form-caption').value = null;
 }
 
-function photoThing() {
+function removeFoto(event) {
+    var photo = new Photo();
+    photo.deleteFromStorage(event);
+    event.target.parentElement.parentElement.remove();
+}
+
+function photoThing(event) {
   if (event.target.classList.contains('del-img')) {
-    console.log('remove');
+    removeFoto(event);
   } else if (event.target.classList.contains('fav-img')) {
     console.log('fav');
   }

@@ -28,7 +28,7 @@ class Photo {
   }
 
   deleteFromStorage(event) {
-    // localStorage.removeItem(event.target.xxx.id);
+    localStorage.removeItem(event.target.parentElement.parentElement.id);
 
   }
 
