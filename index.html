@@ -6,12 +6,10 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- REFRESH AUTOMATION -->
-  <!-- <meta http-equiv="refresh" content="1" > -->
   <title>Foto Finder</title>
 </head>
 <body>
-  <header class="top-area logo-search-area">
+  <nav class="top-area logo-search-area">
     <article class="header-logo">
       <h1 class="logo">FOTO<img src="images/foto-finder-logo.svg" alt="A picture of a camera">FINDER</h1>
     </article>
@@ -23,8 +21,8 @@
         </label>
       </button>
     </article>
-  </header>
-  <section class="top-area form-input">
+  </nav>
+  <header class="top-area form-input">
     <form class="foto-form" action="#">
       <label for="form-title">Title</label>
       <input type="text" id="form-title">
@@ -36,9 +34,27 @@
         <button class="btn btm-btns">Add to Album</button>
       </div>
     </form>
-  </section>
-  <section class="photo-area">
-  </section>
+  </header>
+  <main class="photo-area">
+    <section class="card">
+      <article class="card-title">Waterfall Image</article>
+      <article class="card-img"></article>
+      <article class="card-body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</article>
+      <article class="card-btm">
+        <img src="images/delete.svg" alt="">
+        <img src="images/favorite.svg" alt="">
+      </article>
+    </section>
+    <section class="card">
+      <article class="card-title">Waterfall Image</article>
+      <article class="card-img"></article>
+      <article class="card-body">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</article>
+      <article class="card-btm">
+                <img src="images/delete.svg" alt="">
+        <img src="images/favorite.svg" alt="">
+      </article>
+    </section>
+  </main>
 </body>
 <script src="photo.js"></script>
 <script src="main.js"></script>
