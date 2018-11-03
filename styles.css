@@ -66,34 +66,65 @@ body {
   padding: 6px 12px 14px 12px;
 }
 
-.search-btn i {
+.search-icon {
   font-size: 1.95rem;
   margin: 0 0 -1px 0;
   position: relative;
   top: 4px;
 }
-
 /**END OF LOGO AND SEARCH BAR AREA**/
 
-/*FORM INPUT AREA*/
+/**FORM INPUT AREA**/
 .form-input {
   height: 575px;
   display: flex;
   justify-content: center;
 }
 
-.form-input form {
+.foto-form {
   display: flex;
   flex-direction: column;
+  margin: 65px 0 0 0;
 }
 
-.form-input label, .form-input input {
-  margin: 20px 0;
-
+/*BUTTONS*/
+.btm-btns {
+  width: 300px;
 }
 
+.btn {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 600;
+  background-color: #5B4447;
+  border: none;
+  height: 60px;
+  margin: 35px 0 20px 0;
+}
+
+.btn:hover {
+  background-color: #938284;
+}
+
+.btns-cont {
+  display: flex;
+  justify-content: space-between;
+}
+
+/*INPUTS & LABELS*/
+.foto-form input {
+  margin: 12px 0 20px 0;
+  width: 700px;
+  height: 60px;
+}
+
+.foto-form label {
+  color: #C2B2B4;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+/**END OF FORM INPUT AREA**/
 /*** END OF TOP SECTION AREA***/
-
 
 /*BOTTOM SECTION AREA*/
 .photo-area {
@@ -101,6 +132,11 @@ body {
   height: 800px;
 
 }
+
+
+
+
+
 /*MEDIA QUERIES*/
 @media screen and (max-width: 900px) {
   .logo-search-area {
