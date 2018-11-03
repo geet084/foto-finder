@@ -5,29 +5,30 @@ class Photo {
     this.id = id || Date.now();
     this.file = file || 'unknown';
     this.favorite = false;
-
   }
 
   cardInfo(fotoCard) {
+    fotoCard.className = 'card';
+    fotoCard.id = this.id;
     fotoCard.innerHTML = 
-    `<section class="card" id=${this.id} data-name=${this.id}>
-      <article class="card-title">${this.title}</article>
+    ` <article class="card-title">${this.title}</article>
       <article class="card-img ${this.file}"></article>
       <article class="card-body">${this.caption}</article>
       <article class="card-btm">
         <img class="del-img" src="images/delete.svg" alt="">
         <img class="fav-img ${this.favorite}" src="images/favorite.svg" alt="">
       </article>
-    </section>
     `;
 
   }
 
   saveToStorage() {
+    localStorage.setItem(this.id, JSON.stringify(this));
 
   }
 
-  deleteFromStorage() {
+  deleteFromStorage(event) {
+    // localStorage.removeItem(event.target.xxx.id);
 
   }
 
