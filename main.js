@@ -66,7 +66,16 @@ function clearInputs() {
 
 function photoCardActions(event) {
   if(ifClassIs('del-img')) removePhoto(event.target);
-  if(ifClassIs('fav-img')) console.log('faved');
+  if(ifClassIs('fav-img')) faveMe();
+}
+
+function faveMe() {
+  var findID = event.target.closest('section').dataset.name;
+  var photo = buildPhotoObj(JSON.parse(localStorage.getItem(findID)));
+
+  if(!photo.favorite) photo.favorite = true; 
+  else if(photo.favorite) photo.favorite = false;
+  photo.saveToStorage();
 }
 
 function removePhoto(target) {
