@@ -155,7 +155,7 @@ main {
 /*CARD CONTENTS*/
 .card-title {
   height: 50px;
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   font-weight: 600;
   padding: 13px 0 0 12px;
   color: #3e2a35;
@@ -189,8 +189,25 @@ main {
 .card-btm img {
   height: 60%;
 }
-.card-btm img:hover {
-  background-color: white;
+
+.del-img {
+  background: url('images/delete.svg') center right no-repeat;
+  padding:0 36px 0 0;
+  white-space:nowrap;
+}
+
+.del-img:hover {
+  background: url('images/delete-active.svg') center right no-repeat;
+}
+
+.fav-img {
+  background: url('images/favorite.svg') center right no-repeat;
+  padding:0 42px 0 0;
+  white-space:nowrap;
+}
+
+.fav-img:hover {
+  background: url('images/favorite-active.svg') center right no-repeat;
 }
 /*END OF CARD CONTENTS*/
 /**END OF CARD**/

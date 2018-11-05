@@ -1,10 +1,10 @@
 class Photo {
-  constructor(title, caption, file, id) {
+  constructor(title, caption, file, id, favorite) {
     this.title = title || 'Your Title Here';
     this.caption = caption || 'Your Caption Here';
     this.id = id || Date.now();
     this.file = file || 'unknown';
-    this.favorite = false;
+    this.favorite = favorite || false;
   }
 
   cardInfo(photoCard) {
@@ -16,8 +16,8 @@ class Photo {
       <img class="card-img" src="${this.file}">
       <article class="card-caption" contenteditable="true">${this.caption}</article>
       <article class="card-btm">
-        <img class="del-img" src="images/delete.svg" alt="">
-        <img class="fav-img ${this.favorite}" src="images/favorite.svg" alt="">
+        <img class="del-img"  alt="">
+        <img class="fav-img ${this.favorite}" alt="">
       </article>
     `;
   }
