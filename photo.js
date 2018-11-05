@@ -10,7 +10,6 @@ class Photo {
   cardInfo(photoCard) {
     photoCard.className = 'card';
     photoCard.id = this.id;
-    // photoCard.style.backgroundImage = "url(bgimg.png)";
     photoCard.innerHTML = 
     ` <article class="card-title" contenteditable="true">${this.title}</article>
       <img class="card-img" src="${this.file}">
