@@ -106,14 +106,24 @@
   justify-content: space-between;
 }
 
+.choose-file {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /*INPUTS & LABELS*/
+#file {
+  display: none;
+}
+
 .foto-form input {
   margin: 12px 0 20px 0;
   width: 700px;
   height: 60px;
 }
 
-.foto-form label {
+.form-label {
   color: #C2B2B4;
   font-size: 1.5rem;
   font-weight: 600;
@@ -154,7 +164,8 @@ main {
 .card-img {
   height: 165px;
   background-color: lightgrey;
-  background: url('images/bgimg.png');
+  object-fit: cover;
+  /*background: url('images/bgimg.png');*/
   background-size: cover;
 }
 
