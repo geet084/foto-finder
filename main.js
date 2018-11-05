@@ -1,103 +1,98 @@
-document.querySelector('#search-bar').addEventListener('keyup', getSearchInput);
-document.querySelector('.form-input').addEventListener('click', getFormInput);
-document.querySelector('.photo-area').addEventListener('click', photoThing);
+select('#search-bar').addEventListener('keyup', getSearchInput);
+select('.form-input').addEventListener('click', getFormInput);
+select('.photo-area').addEventListener('click', photoCardActions);
+select('.photo-area').addEventListener('keydown', editPhotoCard);
+select('.photo-area').addEventListener('focusout', updatePhotoCardContent);
+
+function select(field) {
+  return document.querySelector(field);
+}
+
+function ifClassIs(aClass) {
+  return event.target.classList.contains(aClass);
+}
 
 window.onload = (pullPhotosFromStorage);
 
 function pullPhotosFromStorage() {
   var keys = Object.keys(localStorage);
-  var numOfKeys = keys.length;
-  var index = numOfKeys > 10 ? numOfKeys - 10 : 0;
+  var index = keys.length > 10 ? keys.length - 10 : 0;
   
   for(index; index < keys.length; index++) { 
-    var parsedStoredPhotos = JSON.parse(localStorage.getItem(keys[index]));
-    buildPhotoObj(parsedStoredPhotos);
+    var photoCard = JSON.parse(localStorage.getItem(keys[index]));
+    addToPage(buildPhotoObj(photoCard));
   }
 }
 
 function getFormInput(event) {
-  event.preventDefault();
-  var verifyIt = event.target.classList;
-  
-  verifyIt.contains('choose-btn') ? console.log('choose something') : 'Do nothing';
-  verifyIt.contains('view-fav') ? console.log('view something') : 'Do nothing';
-  verifyIt.contains('add-to') ? uploadPhoto() : 'Do nothing';
+  // if(ifClassIs('choose-btn')) uploadForPhoto();
+  if(ifClassIs('view-fav')) console.log('view ');
+  if(ifClassIs('add-to')) uploadToAlbum();
 }
 
-function uploadPhoto(event) {
-  if (getTitle() && getCaption()) {
-    var photo = new Photo(getTitle(), getCaption());
-    buildPhotoObj(photo);
-    photo.saveToStorage();
-  }
+function uploadToAlbum(event) {
+  var uploadedFile = URL.createObjectURL(select('.choose-file').files[0]);
+  var photo = new Photo(getTitle(), getCaption(), uploadedFile)
+
+  if( getTitle() && getCaption() ) addToPage(photo);
+  photo.saveToStorage();
 }
 
 function buildPhotoObj(obj) {
-  var photo = new Photo(obj.title, obj.caption, obj.id, obj.file, obj.favorite);
-  addToAlbum(photo);
+  return new Photo(obj.title, obj.caption, obj.file, obj.id, obj.favorite);
 }
 
-function addToAlbum(photo) {
+function addToPage(photo) {
     var newCard = document.createElement('section');
     newCard.dataset.name = photo.id;
     photo.cardInfo(newCard);
-    document.querySelector('.photo-area').prepend(newCard);
+    select('.photo-area').prepend(newCard);
     photo.saveToStorage();
     clearInputs();
 }
 
 function getTitle() {
-  return document.querySelector('#form-title').value;
+  return select('#form-title').value;
 }
 
 function getCaption() {
-  return document.querySelector('#form-caption').value;
+  return select('#form-caption').value;
 }
 function clearInputs() {
-  document.querySelector('#form-title').value = null;
-  document.querySelector('#form-caption').value = null;
+  select('#form-title').value = null;
+  select('#form-caption').value = null;
+  // select('#file').value = null;
 }
 
-function removePhoto(event) {
-    var photo = new Photo();
-    photo.deleteFromStorage(event);
-    event.target.parentElement.parentElement.remove();
+function photoCardActions(event) {
+  if(ifClassIs('del-img')) removePhoto(event.target);
+  if(ifClassIs('fav-img')) console.log('faved');
 }
 
-function photoThing(event) {
-  if (event.target.classList.contains('del-img')) {
-    removePhoto(event);
-  } else if (event.target.classList.contains('fav-img')) {
-    console.log('fav');
-  }
+function removePhoto(target) {
+    new Photo().deleteFromStorage(target);
+    target.closest('section').remove();
 }
-
-document.querySelector('.photo-area').addEventListener('keydown', editPhotoCard);
 
 function editPhotoCard(event) {
   if (event.keyCode === 13 || event.keyCode === 9) {
     event.preventDefault();
-    updatePhotoCard(event);
+    updatePhotoCardContent();
   }
 }
 
-function updatePhotoCard(event) {
-  var getPhotoId = localStorage.getItem(event.target.closest('section').dataset.name);
-  var obj = JSON.parse(getPhotoId);
-  var photo = new Photo(obj.title, obj.caption, obj.id, obj.file, obj.favorite);
+function updatePhotoCardContent() {
+  var targetID = event.target.closest('section').dataset.name;
+  var photo = buildPhotoObj(JSON.parse(localStorage.getItem(targetID)));
+  var updated = event.target;
 
-  if (event.target.classList.contains('card-title')) {
-    photo.title = event.target.innerText;
-    photo.saveToStorage();
-  } else if (event.target.classList.contains('card-caption')) {
-    photo.caption = event.target.innerText;
-    photo.saveToStorage();
-  }
+  if(ifClassIs('card-title')) photo.title = updated.innerText;
+  if(ifClassIs('card-caption')) photo.caption = updated.innerText;
+  photo.saveToStorage();
 }
-
 
 
 // FOR SEARCH BAR
 function getSearchInput() {
-  console.log(document.querySelector('#search-bar').value);
+  console.log(select('#search-bar').value);
 }
