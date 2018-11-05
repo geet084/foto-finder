@@ -22,6 +22,7 @@ function pullPhotosFromStorage() {
   for(index; index < keys.length; index++) { 
     var photoCard = JSON.parse(localStorage.getItem(keys[index]));
     addToPage(buildPhotoObj(photoCard));
+    updateFaveCount(photoCard);
   }
 }
 
@@ -76,7 +77,7 @@ function clearInputs() {
 
 function photoCardActions(event) {
   if (ifClassIs('del-img')) removePhoto(event.target);
-  if (ifClassIs('fav-img')) toggleFavorite();
+  if (ifClassIs('fav-img')) toggleFavorite(event);
 }
 
 function removePhoto(target) {
@@ -84,13 +85,31 @@ function removePhoto(target) {
     target.closest('section').remove();
 }
 
-function toggleFavorite() {
+function toggleFavorite(event) {
   var findID = event.target.closest('section').dataset.name;
   var photo = buildPhotoObj(JSON.parse(localStorage.getItem(findID)));
 
-  if (!photo.favorite) photo.favorite = true; 
-  else if (photo.favorite) photo.favorite = false;
+  if(photo.favorite) {
+    photo.favorite = false;
+    event.target.classList.add('fav-img');
+    event.target.classList.remove('fav-img-active');
+  } else if (!photo.favorite) {
+    photo.favorite = true;
+    event.target.classList.toggle('fav-img-active')
+  } 
   photo.saveToStorage();
+  updateFaveCount();
+}
+
+function updateFaveCount() {
+  var keys = Object.keys(localStorage);
+  var favCount = 0;
+  for(var i = 0; i < keys.length; i++) {
+    var photoCard = JSON.parse(localStorage.getItem(keys[i]));
+    buildPhotoObj(photoCard);
+    if(photoCard.favorite) favCount++;
+  }
+  select('.view-fav').innerText = `View ${favCount} Favorites`;
 }
 
 function editPhotoCard(event) {
