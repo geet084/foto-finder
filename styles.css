@@ -190,6 +190,11 @@ main {
   height: 60%;
 }
 
+.active {
+  background-color: red;
+  /*background: url('images/favorite-active.svg') center right no-repeat;*/
+}
+
 .del-img {
   background: url('images/delete.svg') center right no-repeat;
   padding:0 36px 0 0;
@@ -200,14 +205,18 @@ main {
   background: url('images/delete-active.svg') center right no-repeat;
 }
 
-.fav-img {
+.fav-img, 
+.fav-img-active:hover {
   background: url('images/favorite.svg') center right no-repeat;
   padding:0 42px 0 0;
   white-space:nowrap;
 }
 
-.fav-img:hover {
+.fav-img:hover, 
+.fav-img-active {
   background: url('images/favorite-active.svg') center right no-repeat;
+  padding:0 42px 0 0;
+  white-space:nowrap;
 }
 /*END OF CARD CONTENTS*/
 /**END OF CARD**/
