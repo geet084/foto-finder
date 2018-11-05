@@ -113,7 +113,7 @@
 }
 
 /*INPUTS & LABELS*/
-#file {
+.hidden {
   display: none;
 }
 

@@ -4,6 +4,7 @@ select('.photo-area').addEventListener('click', photoCardActions);
 select('.photo-area').addEventListener('keydown', editPhotoCard);
 select('.photo-area').addEventListener('focusout', updatePhotoCardContent);
 
+
 function select(field) {
   return document.querySelector(field);
 }
@@ -25,17 +26,25 @@ function pullPhotosFromStorage() {
 }
 
 function getFormInput(event) {
-  // if(ifClassIs('choose-btn')) uploadForPhoto();
-  if(ifClassIs('view-fav')) console.log('view ');
-  if(ifClassIs('add-to')) uploadToAlbum();
+  if (ifClassIs('view-fav')) console.log('view ');
+  if (ifClassIs('add-to')) retrieveFormInput(event);
 }
 
-function uploadToAlbum(event) {
-  var uploadedFile = URL.createObjectURL(select('.choose-file').files[0]);
-  var photo = new Photo(getTitle(), getCaption(), uploadedFile)
+function retrieveFormInput(event) {
+  var reader = new FileReader();
 
-  if( getTitle() && getCaption() ) addToPage(photo);
-  photo.saveToStorage();
+  reader.readAsDataURL(select('.choose-file').files[0]);
+  uploadtoAlbum(reader);
+}
+
+function uploadtoAlbum(reader) {
+  reader.onload = function() {
+    var output = select('.choose-file');
+    output.src = reader.result;
+    var photo = new Photo(getTitle(), getCaption(), output.src);
+    if (getTitle() && getCaption() ) addToPage(photo);
+    photo.saveToStorage();
+  };
 }
 
 function buildPhotoObj(obj) {
@@ -43,12 +52,12 @@ function buildPhotoObj(obj) {
 }
 
 function addToPage(photo) {
-    var newCard = document.createElement('section');
-    newCard.dataset.name = photo.id;
-    photo.cardInfo(newCard);
-    select('.photo-area').prepend(newCard);
-    photo.saveToStorage();
-    clearInputs();
+  var newCard = document.createElement('section');
+  newCard.dataset.name = photo.id;
+  photo.cardInfo(newCard);
+  select('.photo-area').prepend(newCard);
+  photo.saveToStorage();
+  clearInputs();
 }
 
 function getTitle() {
@@ -58,6 +67,7 @@ function getTitle() {
 function getCaption() {
   return select('#form-caption').value;
 }
+
 function clearInputs() {
   select('#form-title').value = null;
   select('#form-caption').value = null;
@@ -65,22 +75,22 @@ function clearInputs() {
 }
 
 function photoCardActions(event) {
-  if(ifClassIs('del-img')) removePhoto(event.target);
-  if(ifClassIs('fav-img')) faveMe();
-}
-
-function faveMe() {
-  var findID = event.target.closest('section').dataset.name;
-  var photo = buildPhotoObj(JSON.parse(localStorage.getItem(findID)));
-
-  if(!photo.favorite) photo.favorite = true; 
-  else if(photo.favorite) photo.favorite = false;
-  photo.saveToStorage();
+  if (ifClassIs('del-img')) removePhoto(event.target);
+  if (ifClassIs('fav-img')) toggleFavorite();
 }
 
 function removePhoto(target) {
     new Photo().deleteFromStorage(target);
     target.closest('section').remove();
+}
+
+function toggleFavorite() {
+  var findID = event.target.closest('section').dataset.name;
+  var photo = buildPhotoObj(JSON.parse(localStorage.getItem(findID)));
+
+  if (!photo.favorite) photo.favorite = true; 
+  else if (photo.favorite) photo.favorite = false;
+  photo.saveToStorage();
 }
 
 function editPhotoCard(event) {
@@ -93,10 +103,9 @@ function editPhotoCard(event) {
 function updatePhotoCardContent() {
   var targetID = event.target.closest('section').dataset.name;
   var photo = buildPhotoObj(JSON.parse(localStorage.getItem(targetID)));
-  var updated = event.target;
 
-  if(ifClassIs('card-title')) photo.title = updated.innerText;
-  if(ifClassIs('card-caption')) photo.caption = updated.innerText;
+  if (ifClassIs('card-title')) photo.title = event.target.innerText;
+  if (ifClassIs('card-caption')) photo.caption = event.target.innerText;
   photo.saveToStorage();
 }
 
