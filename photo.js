@@ -3,7 +3,7 @@ class Photo {
     this.title = title || 'Your Title Here';
     this.caption = caption || 'Your Caption Here';
     this.id = id || Date.now();
-    this.file = file || 'unknown';
+    this.file = file;
     this.favorite = favorite || false;
   }
 
