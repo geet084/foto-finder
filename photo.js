@@ -16,7 +16,7 @@ class Photo {
       <article class="card-caption" contenteditable="true">${this.caption}</article>
       <article class="card-btm">
         <img class="del-img"  alt="">
-        <img class="fav-img ${this.favorite}" alt="">
+        <img class="favorite fave-${this.favorite}" alt="">
       </article>
     `;
   }
@@ -29,7 +29,9 @@ class Photo {
     localStorage.removeItem(target.closest('section').id);
   }
 
-  updatePhoto() {
-
+  updatePhoto(title, caption, favorite) {
+    this.title = title;
+    this.caption = caption;
+    this.favorite = favorite;
   }
 }
