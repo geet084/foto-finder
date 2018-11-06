@@ -8,7 +8,6 @@ select('.photo-area').addEventListener('focusout', updatePhotoCardContent);
 
 // TO DO LIST
 // Bonus: If the user clicks on the image, the user should be able to update the photo using the updatePhoto method.
-// The application should be responsive and work equally well on desktop and mobile
 
 
 function select(field) {
