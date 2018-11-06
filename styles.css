@@ -5,6 +5,11 @@
   padding: 0;
 }
 
+.hidden {
+  display: none;
+  /*visibility: hidden;*/
+}
+
 /***TOP SECTION AREA***/
 .top-area {
   background: #3E2A35;  
@@ -205,15 +210,15 @@ main {
   background: url('images/delete-active.svg') center right no-repeat;
 }
 
-.fav-img, 
-.fav-img-active:hover {
+.fave-false,
+.fave-true:hover  {
   background: url('images/favorite.svg') center right no-repeat;
   padding:0 42px 0 0;
   white-space:nowrap;
 }
 
-.fav-img:hover, 
-.fav-img-active {
+.fave-true,
+.fave-false:hover {
   background: url('images/favorite-active.svg') center right no-repeat;
   padding:0 42px 0 0;
   white-space:nowrap;
