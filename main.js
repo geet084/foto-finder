@@ -41,10 +41,12 @@ function getFormInput(event) {
 }
 
 function retrieveFormInput(event) {
+  event.preventDefault();
   var reader = new FileReader();
-
-  reader.readAsDataURL(select('.choose-file').files[0]);
-  uploadtoAlbum(reader);
+  if(select('.choose-file').files.length > 0) {
+    reader.readAsDataURL(select('.choose-file').files[0]);
+    uploadtoAlbum(reader);
+  }
 }
 
 function uploadtoAlbum(reader) {
@@ -81,7 +83,7 @@ function getCaption() {
 function clearInputs() {
   select('#form-title').value = null;
   select('#form-caption').value = null;
-  // select('#file').value = null;
+  select('#file').value = null;
 }
 
 function photoCardActions(event) {
@@ -183,10 +185,12 @@ function compare(searchInput, photo) {
   var findCaption = photo.caption.toLowerCase();
   var specificPhoto = document.getElementById(photo.id).classList;
 
-  if(!findTitle.includes(searchInput) || !findCaption.includes(searchInput)) {
-    specificPhoto.add('hidden');
-  }
-  if(findTitle.includes(searchInput) || findCaption.includes(searchInput)) {
+  specificPhoto.add('hidden');
+  if(theseMatch(findTitle, searchInput) || theseMatch(findCaption, searchInput)) {
     specificPhoto.remove('hidden');
   }
+}
+
+function theseMatch(cardContent, searchContent) {
+  if(cardContent.includes(searchContent)) return true;
 }
