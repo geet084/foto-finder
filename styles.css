@@ -89,7 +89,7 @@
 
 /*BUTTONS*/
 .btm-btns {
-  width: 200px;
+  width: 198px;
 }
 
 .btn {
@@ -168,9 +168,9 @@ main {
 
 .card-img {
   height: 165px;
+  width: 100%;
   background-color: lightgrey;
   object-fit: cover;
-  /*background: url('images/bgimg.png');*/
   background-size: cover;
 }
 

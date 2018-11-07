@@ -4,25 +4,12 @@ select('.photo-area').addEventListener('click', photoCardActions);
 select('.photo-area').addEventListener('keydown', editPhotoCard);
 select('.photo-area').addEventListener('focusout', updatePhotoCardContent);
 
-
-
-// TO DO LIST
-// Bonus: If the user clicks on the image, the user should be able to update the photo using the updatePhoto method.
-
-
 function select(field) {
   return document.querySelector(field);
 }
 
-function ifClassIs(aClass) {
-  return event.target.classList.contains(aClass);
-}
-
-function getPhotoFor(keys) {
-  return JSON.parse(localStorage.getItem(keys));
-}
-
 window.onload = (pullUpToTenPhotosFromStorage);
+
 
 function pullUpToTenPhotosFromStorage() {
   var keys = Object.keys(localStorage);
@@ -31,39 +18,25 @@ function pullUpToTenPhotosFromStorage() {
   removeCardsFromPage();
 
   for(index; index < keys.length; index++) { 
-    var photoCard = getPhotoFor(keys[index]);
-    addToPage(buildPhotoObj(photoCard));
-    updateFaveCount(photoCard);
+    addToPage(buildPhotoObj(getPhotoFor(keys[index])));
+    updateFaveCount(getPhotoFor(keys[index]));
   }
 }
 
-function getFormInput(event) {
-  if (ifClassIs('add-to')) retrieveFormInput(event);
-  if (ifClassIs('view-fav')) retrieveFavorites();
-  if (ifClassIs('show-btn')) showMorePhotos();
-}
+function removeCardsFromPage() {
+  var targets = document.querySelector('.photo-area');
 
-function retrieveFormInput(event) {
-  event.preventDefault();
-  var reader = new FileReader();
-  if(select('.choose-file').files.length > 0) {
-    reader.readAsDataURL(select('.choose-file').files[0]);
-    uploadtoAlbum(reader);
+  while (targets.firstChild) {
+    targets.removeChild(targets.firstChild);
   }
-}
-
-function uploadtoAlbum(reader) {
-  reader.onload = function() {
-    // var output = select('.choose-file');
-    // output.src = reader.result;
-    var photo = new Photo(getTitle(), getCaption(), reader.result);
-    if (getTitle() && getCaption() ) addToPage(photo);
-    photo.saveToStorage();
-  };
 }
 
 function buildPhotoObj(obj) {
   return new Photo(obj.title, obj.caption, obj.file, obj.id, obj.favorite);
+}
+
+function getPhotoFor(keys) {
+  return JSON.parse(localStorage.getItem(keys));
 }
 
 function addToPage(photo) {
@@ -86,43 +59,36 @@ function getCaption() {
 function clearInputs() {
   select('#form-title').value = null;
   select('#form-caption').value = null;
-  select('#file').value = null;
+  // select('#file').value = null;
 }
 
-function photoCardActions(event) {
-  if (ifClassIs('del-img')) removePhoto(event.target);
-  if (ifClassIs('favorite')) toggleFavorite(event);
+function getFormInput(event) {
+  if (ifClassIs('add-to')) retrieveFormInput(event);
+  if (ifClassIs('view-fav')) retrieveFavorites();
+  if (ifClassIs('show-btn')) showMorePhotos();
 }
 
-function removePhoto(target) {
-    new Photo().deleteFromStorage(target);
-    target.closest('section').remove();
-    updateFaveCount();
+function ifClassIs(aClass) {
+  return event.target.classList.contains(aClass);
 }
 
-function toggleFavorite(event) {
-  var findID = event.target.closest('section').dataset.name;
-  var photo = buildPhotoObj(getPhotoFor(findID));
-
-  if (photo.favorite) toggleIcon(photo);
-  else if (!photo.favorite) toggleIcon(photo);
-  photo.saveToStorage();
-  updateFaveCount();
-}
-
-function toggleIcon(photo) {
-  photo.updatePhoto(photo.title, photo.caption, !photo.favorite);
-  event.target.classList.replace(`fave-${!photo.favorite}`, `fave-${photo.favorite}`);
-}
-
-function updateFaveCount() {
-  var keys = Object.keys(localStorage);
-  var favCount = 0;
-  for(var i = 0; i < keys.length; i++) {
-    var photoCard = getPhotoFor(keys[i]);
-    if (photoCard.favorite) favCount++;
+function retrieveFormInput(event) {
+  event.preventDefault();
+  var reader = new FileReader();
+  if(select('.choose-file').files.length > 0) {
+    reader.readAsDataURL(select('.choose-file').files[0]);
+    uploadtoAlbum(reader);
   }
-  select('.view-fav').innerText = `View ${favCount} Favorites`;
+}
+
+function uploadtoAlbum(reader) {
+  reader.onload = function() {
+    // var output = select('.choose-file');
+    // output.src = reader.result;
+    var photo = new Photo(getTitle(), getCaption(), reader.result);
+    if (getTitle() && getCaption() ) addToPage(photo);
+    photo.saveToStorage();
+  };
 }
 
 function retrieveFavorites() {
@@ -165,7 +131,6 @@ function showMorePhotos() {
   }
 }
 
-
 function addAllCardsFromStorage() {
   var keys = Object.keys(localStorage);
   removeCardsFromPage();
@@ -177,12 +142,40 @@ function addAllCardsFromStorage() {
   })
 }
 
-function removeCardsFromPage() {
-  var targets = document.querySelector('.photo-area');
+function photoCardActions(event) {
+  if (ifClassIs('del-img')) removePhoto(event.target);
+  if (ifClassIs('favorite')) toggleFavorite(event);
+}
 
-  while (targets.firstChild) {
-    targets.removeChild(targets.firstChild);
+function removePhoto(target) {
+    new Photo().deleteFromStorage(target);
+    target.closest('section').remove();
+    updateFaveCount();
+}
+
+function toggleFavorite(event) {
+  var findID = event.target.closest('section').dataset.name;
+  var photo = buildPhotoObj(getPhotoFor(findID));
+
+  if (photo.favorite) toggleIcon(photo);
+  else if (!photo.favorite) toggleIcon(photo);
+  photo.saveToStorage();
+  updateFaveCount();
+}
+
+function toggleIcon(photo) {
+  photo.updatePhoto(photo.title, photo.caption, !photo.favorite);
+  event.target.classList.replace(`fave-${!photo.favorite}`, `fave-${photo.favorite}`);
+}
+
+function updateFaveCount() {
+  var keys = Object.keys(localStorage);
+  var favCount = 0;
+  for(var i = 0; i < keys.length; i++) {
+    var photoCard = getPhotoFor(keys[i]);
+    if (photoCard.favorite) favCount++;
   }
+  select('.view-fav').innerText = `View ${favCount} Favorites`;
 }
 
 function editPhotoCard(event) {
