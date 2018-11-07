@@ -176,11 +176,26 @@ function getSearchInput() {
 
   keys.forEach(function(key) {
     var photo = buildPhotoObj(getPhotoFor(key));
-    compare(searchInput, photo);
+    
+    if(select('.view-fav').innerText === 'View All Fotos') {
+      compareFaves(searchInput, photo);
+    } else compareAll(searchInput, photo);
   })
 }
 
-function compare(searchInput, photo) {
+function compareFaves(searchInput, photo) {
+  var findTitle = photo.title.toLowerCase();
+  var findCaption = photo.caption.toLowerCase();
+  var specificPhoto = document.getElementById(photo.id).classList;
+
+  specificPhoto.add('hidden');
+  if( (theseMatch(findTitle, searchInput) && photo.favorite) || 
+      (theseMatch(findCaption, searchInput) && photo.favorite) ) {
+    specificPhoto.remove('hidden');
+  }
+}
+
+function compareAll(searchInput, photo) {
   var findTitle = photo.title.toLowerCase();
   var findCaption = photo.caption.toLowerCase();
   var specificPhoto = document.getElementById(photo.id).classList;
