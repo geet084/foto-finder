@@ -168,8 +168,25 @@ function updatePhotoCardContent() {
   photo.saveToStorage();
 }
 
-
-// FOR SEARCH BAR
 function getSearchInput() {
-  console.log(select('#search-bar').value);
+  var searchInput = select('#search-bar').value.toLowerCase();
+  var keys = Object.keys(localStorage);
+
+  keys.forEach(function(key) {
+    var photo = buildPhotoObj(getPhotoFor(key));
+    compare(searchInput, photo);
+  })
+}
+
+function compare(searchInput, photo) {
+  var findTitle = photo.title.toLowerCase();
+  var findCaption = photo.caption.toLowerCase();
+  var specificPhoto = document.getElementById(photo.id).classList;
+
+  if(!findTitle.includes(searchInput) || !findCaption.includes(searchInput)) {
+    specificPhoto.add('hidden');
+  }
+  if(findTitle.includes(searchInput) || findCaption.includes(searchInput)) {
+    specificPhoto.remove('hidden');
+  }
 }
