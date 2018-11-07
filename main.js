@@ -22,12 +22,14 @@ function getPhotoFor(keys) {
   return JSON.parse(localStorage.getItem(keys));
 }
 
-window.onload = (pullPhotosFromStorage);
+window.onload = (pullUpToTenPhotosFromStorage);
 
-function pullPhotosFromStorage() {
+function pullUpToTenPhotosFromStorage() {
   var keys = Object.keys(localStorage);
   var index = keys.length > 10 ? keys.length - 10 : 0;
-  
+
+  removeCardsFromPage();
+
   for(index; index < keys.length; index++) { 
     var photoCard = getPhotoFor(keys[index]);
     addToPage(buildPhotoObj(photoCard));
@@ -36,8 +38,9 @@ function pullPhotosFromStorage() {
 }
 
 function getFormInput(event) {
-  if (ifClassIs('view-fav')) retrieveFavorites();
   if (ifClassIs('add-to')) retrieveFormInput(event);
+  if (ifClassIs('view-fav')) retrieveFavorites();
+  if (ifClassIs('show-btn')) showMorePhotos();
 }
 
 function retrieveFormInput(event) {
@@ -127,7 +130,7 @@ function retrieveFavorites() {
   var favBtnText = select('.view-fav').innerText;
 
   if (favBtnText === 'View All Fotos') showJustFavorites(keys);
-  else if (favBtnText !== 'View All Fotos') showAllPhotos(keys);
+  else if (favBtnText !== 'View All Fotos') showNotjustFavorites(keys);
 }
 
 function showJustFavorites(keyArr) {
@@ -140,15 +143,46 @@ function showJustFavorites(keyArr) {
   updateFaveCount();
 }
 
-function showAllPhotos(keyArr) {
+function showNotjustFavorites(keyArr) {
   keyArr.forEach(function(key) {
     var photo = buildPhotoObj(getPhotoFor(key));
     var specificPhoto = document.getElementById(photo.id).classList;
 
     specificPhoto.add('hidden');
-    if(photo.favorite) specificPhoto.remove('hidden');
+    if (photo.favorite) specificPhoto.remove('hidden');
   })
   select('.view-fav').innerText = `View All Fotos`;
+}
+
+function showMorePhotos() {
+  var showBtn = select('.show-btn');
+  if (showBtn.innerText === 'Show More') {
+    showBtn.innerText = 'Show Less';
+    addAllCardsFromStorage();
+  } else if (showBtn.innerText === 'Show Less') {
+    showBtn.innerText = 'Show More';
+    pullUpToTenPhotosFromStorage();
+  }
+}
+
+
+function addAllCardsFromStorage() {
+  var keys = Object.keys(localStorage);
+  removeCardsFromPage();
+
+  keys.forEach(function (key) {
+    var photoCard = getPhotoFor(key);
+    addToPage(buildPhotoObj(photoCard));
+    updateFaveCount(photoCard);
+  })
+}
+
+function removeCardsFromPage() {
+  var targets = document.querySelector('.photo-area');
+
+  while (targets.firstChild) {
+    targets.removeChild(targets.firstChild);
+  }
 }
 
 function editPhotoCard(event) {

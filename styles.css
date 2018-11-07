@@ -89,7 +89,7 @@
 
 /*BUTTONS*/
 .btm-btns {
-  width: 300px;
+  width: 200px;
 }
 
 .btn {
@@ -277,7 +277,7 @@ main {
 
 @media screen and (max-width: 650px) {
   .form-input {
-    height: 635px;
+    height: 765px;
   }
   .btns-cont {
     display: flex;
